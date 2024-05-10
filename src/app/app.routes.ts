@@ -60,5 +60,8 @@ export const appRoutes: Route[] = [
         children: [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.routes')},
         ]
-    }
+    },
+
+    // If the requested route doesn't match any of the above
+    {path: '**', redirectTo: 'example'}
 ];
