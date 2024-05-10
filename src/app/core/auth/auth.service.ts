@@ -4,7 +4,8 @@ import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { environment } from 'environments/environment';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
-import { SignInResponse } from './interfaces/auth.interfaces';
+import { Candidate, SignInResponse } from './interfaces/auth.interfaces';
+import { User } from '../user/user.types';
 
 @Injectable({providedIn: 'root'})
 export class AuthService
@@ -88,9 +89,9 @@ export class AuthService
      *
      * @param user
      */
-    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
+    signUp(candidate: Candidate): Observable<User>
     {
-        return this._httpClient.post('api/auth/sign-up', user);
+        return this._httpClient.post<User>(`${this.apiUrl}/auth/signup`, candidate);
     }
 
     /**

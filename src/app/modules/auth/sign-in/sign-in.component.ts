@@ -83,9 +83,7 @@ export class SignInClassicComponent implements OnInit {
             return;
         }
         this.signInForm.disable();
-
         this.showAlert = false;
-
         this._authService.signIn(this.signInForm.value).subscribe({
             next: () => {
                 // Set the redirect url.

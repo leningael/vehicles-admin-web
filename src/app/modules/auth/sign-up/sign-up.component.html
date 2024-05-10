@@ -7,12 +7,12 @@
             </div>
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign up</div>
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign Up</div>
             <div class="flex items-baseline mt-0.5 font-medium">
                 <div>Already have an account?</div>
                 <a
                     class="ml-1 text-primary-500 hover:underline"
-                    [routerLink]="['/sign-in']">Sign in
+                    [routerLink]="['/sign-in']">Sign In
                 </a>
             </div>
 
@@ -34,27 +34,39 @@
 
                 <!-- Name field -->
                 <mat-form-field class="w-full mb-2">
-                    <mat-label>Full name</mat-label>
+                    <mat-label>Name</mat-label>
                     <input
                         id="name"
                         matInput
                         [formControlName]="'name'">
                     <mat-error *ngIf="signUpForm.get('name').hasError('required')">
-                        Full name is required
+                        Name is required
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Lastname field -->
+                <mat-form-field class="w-full mb-2">
+                    <mat-label>Last name</mat-label>
+                    <input
+                        id="last_name"
+                        matInput
+                        [formControlName]="'last_name'">
+                    <mat-error *ngIf="signUpForm.get('last_name').hasError('required')">
+                        Lastname is required
                     </mat-error>
                 </mat-form-field>
 
                 <!-- Email field -->
                 <mat-form-field class="w-full mb-2">
-                    <mat-label>Email address</mat-label>
+                    <mat-label>Email</mat-label>
                     <input
                         id="email"
                         matInput
                         [formControlName]="'email'">
                     <mat-error *ngIf="signUpForm.get('email').hasError('required')">
-                        Email address is required
+                        Email is required
                     </mat-error>
-                    <mat-error *ngIf="signUpForm.get('email').hasError('email')">
+                    <mat-error *ngIf="signUpForm.get('email').hasError('pattern')">
                         Please enter a valid email address
                     </mat-error>
                 </mat-form-field>
@@ -87,33 +99,17 @@
                     </mat-error>
                 </mat-form-field>
 
-                <!-- Company field -->
+                <!-- Invitation code field -->
                 <mat-form-field class="w-full mb-2">
-                    <mat-label>Company</mat-label>
+                    <mat-label>Invitation code</mat-label>
                     <input
-                        id="company-confirm"
+                        id="invitation_code"
                         matInput
-                        [formControlName]="'company'">
+                        [formControlName]="'invitation_code'">
+                    <mat-error *ngIf="signUpForm.get('invitation_code').hasError('required')">
+                        Invitation code is required
+                    </mat-error>
                 </mat-form-field>
-
-                <!-- ToS and PP -->
-                <div class="inline-flex items-end w-full mt-1.5">
-                    <mat-checkbox
-                        class="-ml-2"
-                        [color]="'primary'"
-                        [formControlName]="'agreements'">
-                        <span>I agree with</span>
-                        <a
-                            class="ml-1 text-primary-500 hover:underline"
-                            [routerLink]="['./']">Terms
-                        </a>
-                        <span>and</span>
-                        <a
-                            class="ml-1 text-primary-500 hover:underline"
-                            [routerLink]="['./']">Privacy Policy
-                        </a>
-                    </mat-checkbox>
-                </div>
 
                 <!-- Submit button -->
                 <button

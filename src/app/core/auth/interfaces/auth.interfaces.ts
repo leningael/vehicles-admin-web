@@ -5,3 +5,11 @@ export interface SignInResponse {
     token_type: string;
     user: User;
 }
+
+export interface Candidate {
+    name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    invitation_code: string;
+}
