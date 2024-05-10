@@ -19,6 +19,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import { FormValidatorsService } from 'app/shared/services/formValidators.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'sign-up-classic',
@@ -55,7 +56,8 @@ export class SignUpClassicComponent implements OnInit {
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
         private _router: Router,
-        private _formValidators: FormValidatorsService
+        private _formValidators: FormValidatorsService,
+        private _toastr: ToastrService,
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -91,6 +93,7 @@ export class SignUpClassicComponent implements OnInit {
         this.showAlert = false;
         this._authService.signUp(this.signUpForm.value).subscribe({
             next: () => {
+                this._toastr.success('Your account has been created. Please sign in.', 'Success');
                 this._router.navigate(['/sign-in']);
             },
             error: (response) => {

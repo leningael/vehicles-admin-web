@@ -94,10 +94,11 @@ export class SignInClassicComponent implements OnInit {
                 // Navigate to the redirect url
                 this._router.navigateByUrl(redirectURL);
             },
-            error: () => {
+            error: (response) => {
+                const detail = response.error && response.error.detail;
                 this.alert = {
                     type: 'error',
-                    message: 'Email o contraseña incorrectos',
+                    message: detail || 'Error! Please check your credentials!',
                 };
                 this.showAlert = true;
                 this.signInForm.enable();
