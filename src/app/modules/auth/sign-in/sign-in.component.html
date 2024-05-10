@@ -7,12 +7,12 @@
             </div>
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Inicia sesión</div>
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign in</div>
             <div class="flex items-baseline mt-0.5 font-medium">
-                <div>¿No tienes una cuenta?</div>
+                <div>Don't have an account?</div>
                 <a
                     class="ml-1 text-primary-500 hover:underline"
-                    [routerLink]="['/sign-up']">Regístrate
+                    [routerLink]="['/sign-up']">Sign up
                 </a>
             </div>
 
@@ -34,22 +34,22 @@
 
                 <!-- Email field -->
                 <mat-form-field class="w-full mb-2">
-                    <mat-label>Correo electrónico</mat-label>
+                    <mat-label>Email address</mat-label>
                     <input
                         id="email"
                         matInput
                         [formControlName]="'email'">
                     <mat-error *ngIf="signInForm.get('email').hasError('required')">
-                        Correo electrónico es requerido
+                        Email address is required
                     </mat-error>
                     <mat-error *ngIf="signInForm.get('email').hasError('email')">
-                        Por favor, introduce un correo electrónico válido
+                        Please enter a valid email address
                     </mat-error>
                 </mat-form-field>
 
                 <!-- Password field -->
                 <mat-form-field class="w-full mb-2">
-                    <mat-label>Contraseña</mat-label>
+                    <mat-label>Password</mat-label>
                     <input
                         id="password"
                         matInput
@@ -71,7 +71,7 @@
                             [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
                     </button>
                     <mat-error>
-                        Contraseña es requerida
+                        Password is required
                     </mat-error>
                 </mat-form-field>
 
@@ -83,7 +83,7 @@
                     [disabled]="signInForm.disabled"
                     (click)="signIn()">
                     <span *ngIf="!signInForm.disabled">
-                        Iniciar sesión
+                        Sign in
                     </span>
                     <mat-progress-spinner
                         *ngIf="signInForm.disabled"

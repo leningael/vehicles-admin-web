@@ -18,7 +18,7 @@
     #userActions="matMenu">
     <button mat-menu-item>
         <span class="flex flex-col leading-none">
-            <span>Sesión iniciada como</span>
+            <span>Signed in as</span>
             <span class="mt-1.5 text-md font-medium">{{user.email}}</span>
         </span>
     </button>
@@ -27,6 +27,6 @@
         mat-menu-item
         (click)="signOut()">
         <mat-icon [svgIcon]="'heroicons_outline:arrow-right-on-rectangle'"></mat-icon>
-        <span>Cerrar sesión</span>
+        <span>Sign out</span>
     </button>
 </mat-menu>
