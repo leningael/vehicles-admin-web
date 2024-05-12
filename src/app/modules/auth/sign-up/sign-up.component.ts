@@ -18,7 +18,7 @@ import { Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
-import { FormValidatorsService } from 'app/shared/services/formValidators.service';
+import { FormValidatorsService } from 'app/shared/services/form-validators.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

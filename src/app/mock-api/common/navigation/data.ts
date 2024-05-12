@@ -8,6 +8,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
+    },
+    {
+        id   : 'invitation-codes',
+        title: 'Invitation Codes',
+        type : 'basic',
+        icon : 'heroicons_outline:ticket',
+        link : '/invitation-codes'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
@@ -17,5 +24,12 @@ export const compactNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
+    },
+    {
+        id   : 'invitation-codes',
+        title: 'Invitation Codes',
+        type : 'basic',
+        icon : 'heroicons_outline:ticket',
+        link : '/invitation-codes'
     }
 ];
