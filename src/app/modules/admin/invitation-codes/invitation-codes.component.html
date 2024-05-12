@@ -1,0 +1,98 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+        <h2 class="text-3xl font-bold mb-4">Invitation codes</h2>
+        <form [formGroup]="invitationsForm" class="w-fit min-w-140">
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table
+                    class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                >
+                    <caption
+                        class="p-5 text-xl font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800"
+                    >
+                        Manage invitations
+                        <p
+                            class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400"
+                        >
+                            Invite new users to the platform by generating
+                            invitation codes.
+                        </p>
+                    </caption>
+                    <thead
+                        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                    >
+                        <tr>
+                            <th scope="col" class="px-6 py-3">#</th>
+                            <th scope="col" class="px-6 py-3">Email</th>
+                            <th scope="col" class="px-6 py-3">
+                                Invitation code
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                <span class="sr-only">Actions</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="invitations">
+                        <!-- @for (invitation of invitationCodes; let i = $index; track i) { -->
+                        <tr
+                            *ngFor="
+                                let invitation of invitationCodes;
+                                let i = index
+                            "
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                        >
+                            <th
+                                scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                                {{ i + 1 }}
+                            </th>
+                            <td class="px-6 py-4">
+                                <input
+                                    matInput
+                                    class="w-full"
+                                    placeholder="Enter email"
+                                    [formControlName]="i"
+                                />
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ invitation.code || "Save to generate" }}
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button
+                                    mat-icon-button
+                                    color="warn"
+                                    (click)="deleteInvitation(i)"
+                                >
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                                <button
+                                    mat-icon-button
+                                    color="primary"
+                                    (click)="saveInvitation(i)"
+                                    [disabled]="shoulSaveBeDisabled(i)"
+                                >
+                                    <mat-icon>save</mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                        <!-- } -->
+                        <tr>
+                            <td colspan=" 4" class="px-6 py-2">
+                                <button
+                                    mat-stroked-button
+                                    color="primary"
+                                    class="w-full"
+                                    (click)="addNewInvitation()"
+                                >
+                                    <mat-icon>add</mat-icon>
+                                    Add new invitation
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
