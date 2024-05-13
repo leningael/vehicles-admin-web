@@ -17,6 +17,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link : '/driver-assignments'
     },
     {
+        id   : 'drivers',
+        title: 'Drivers',
+        type : 'basic',
+        icon : 'heroicons_outline:user-group',
+        link : '/driver'
+    },
+    {
         id   : 'invitation-codes',
         title: 'Invitation Codes',
         type : 'basic',
@@ -38,6 +45,13 @@ export const compactNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'mat_solid:car_rental',
         link : '/driver-assignments'
+    },
+    {
+        id   : 'drivers',
+        title: 'Drivers',
+        type : 'basic',
+        icon : 'heroicons_outline:user-group',
+        link : '/drivers'
     },
     {
         id   : 'invitation-codes',
