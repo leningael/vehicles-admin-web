@@ -1,0 +1,99 @@
+<div class="flex justify-between mb-4">
+    <div class="text-2xl font-bold">{{ action }} vehicle</div>
+    <button mat-icon-button (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+<form [formGroup]="vehicleForm" (ngSubmit)="saveVehicle()" class="flex flex-col">
+    
+    <div class="flex flex-row gap-4">
+        <div class="w-100 flex flex-col">
+            <div class="flex flex-row gap-4">
+                <mat-form-field
+                    class="flex-auto">
+                    <mat-label>Brand</mat-label>
+                    <input matInput formControlName="brand"/>
+                </mat-form-field>
+                <mat-form-field
+                    class="flex-auto">
+                    <mat-label>Model</mat-label>
+                    <input matInput formControlName="model"/>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-row gap-4">
+                <mat-form-field
+                    class="flex-auto">
+                    <mat-label>Vin</mat-label>
+                    <input matInput formControlName="vin"/>
+                </mat-form-field>
+                <mat-form-field
+                    class="flex-auto">
+                    <mat-label>Plate</mat-label>
+                    <input matInput formControlName="plate"/>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-row gap-4">
+                <mat-form-field
+                    class="flex-auto w-1/2">
+                    <mat-label>Purchase Date</mat-label>
+                    <input matInput [matDatepicker]="purchaseDatePicker" readonly formControlName="purchase_date"/>
+                    <mat-datepicker-toggle matIconSuffix [for]="purchaseDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #purchaseDatePicker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field
+                    class="flex-auto">
+                    <mat-label>Cost</mat-label>
+                    <input matInput formControlName="cost"/>
+                </mat-form-field>
+            </div>
+        
+            <div class="flex flex-row gap-4">
+                <mat-form-field
+                    class="flex-auto w-1/2">
+                    <mat-label>Entry Date</mat-label>
+                    <input matInput [matDatepicker]="entryDatepicker" readonly formControlName="entry_date"/>
+                    <mat-datepicker-toggle matIconSuffix [for]="entryDatepicker"></mat-datepicker-toggle>
+                    <mat-datepicker #entryDatepicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+    
+        <div class="w-100">
+            <ng-container *ngIf="isDownloading; else showImage">
+                <mat-progress-spinner
+                [diameter]="40"
+                class="mx-auto mt-5"
+                [mode]="'indeterminate'"></mat-progress-spinner>
+            </ng-container>
+
+            <ng-template #showImage>
+                <mat-form-field class="picture-form-field">
+                    <div style="height: 100%;">
+                        <mat-toolbar style="height: 100%; width: 100%;">
+                            <ng-container *ngIf="vehicleForm.get('picture')?.value">
+                                <img #pictureInput [src]="selectedImage" class="image-inside-grid"/>
+                            </ng-container>
+                            <input matInput value='Select an image'/>
+                        </mat-toolbar>
+                        <input
+                            type="file"
+                            id="fileInput"
+                            name="fileInput"
+                            accept="image/*"
+                            multiple
+                            (change)="onFileSelected($event)"
+                        />
+                    </div>
+                </mat-form-field>
+            </ng-template>
+           
+        </div>
+    </div>
+   
+    <div class="flex justify-end mt-5">
+        <button mat-raised-button color="primary" type="submit">
+            {{ action === 'Edit' ? 'Save' : 'Add'}}
+        </button>
+    </div>
+</form>

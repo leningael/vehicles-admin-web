@@ -5,11 +5,12 @@
         <div class="text-3xl font-bold">Drivers</div>
         <div class="flex flex-row justify-end mb-4">
             <button mat-flat-button color="primary" (click)="openDriverDialog()">
+                <mat-icon>add</mat-icon>
                 Add driver
             </button>
         </div>
         <!-- Drivers table -->
-        <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+        <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden pt-4">
             <div class="overflow-x-auto mx-6">
                 <table
                     class="w-full bg-transparent"
@@ -25,7 +26,6 @@
                             Name
                         </th>
                         <td
-                            class="text-center"
                             mat-cell
                             *matCellDef="let driver">
                             <span class="whitespace-nowrap">
@@ -41,7 +41,6 @@
                             Last Name
                         </th>
                         <td
-                            class="text-center"
                             mat-cell
                             *matCellDef="let driver">
                             <span class="whitespace-nowrap">
@@ -57,7 +56,6 @@
                             Birthdate
                         </th>
                         <td
-                            class="text-center"
                             mat-cell
                             *matCellDef="let driver">
                             <span class="whitespace-nowrap">
@@ -73,7 +71,6 @@
                             CURP
                         </th>
                         <td
-                            class="text-center"
                             mat-cell
                             *matCellDef="let driver">
                             <span class="whitespace-nowrap">
@@ -89,7 +86,6 @@
                             Address
                         </th>
                         <td
-                            class="text-center"
                             mat-cell
                             *matCellDef="let driver">
                             <span class="whitespace-nowrap">
@@ -105,7 +101,6 @@
                             Monthly salary
                         </th>
                         <td
-                            class="text-center"
                             mat-cell
                             *matCellDef="let driver">
                             <span class="whitespace-nowrap">
@@ -121,7 +116,6 @@
                             Driving license
                         </th>
                         <td
-                            class="text-center"
                             mat-cell
                             *matCellDef="let driver">
                             <span class="whitespace-nowrap">
@@ -137,7 +131,6 @@
                             Registration date
                         </th>
                         <td
-                            class="text-center"
                             mat-cell
                             *matCellDef="let driver">
                             <span class="whitespace-nowrap">
@@ -148,12 +141,10 @@
                     <ng-container matColumnDef="actions">
                         <th
                             mat-header-cell
-                            mat-sort-header
                             *matHeaderCellDef>  
                             Actions                        
                         </th>
                         <td
-                            class="text-center"
                             mat-cell
                             *matCellDef="let driver">
                             <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -174,11 +165,12 @@
                     <tr mat-header-row *matHeaderRowDef="driversTableColumns"></tr>
                     <tr  class="order-row h-16" mat-row *matRowDef="let row; columns: driversTableColumns;"></tr>
                 </table>
+            </div>
+            <div class="flex justify-end">
                 <mat-paginator 
                     showFirstLastButtons 
-                    [length]="driversDataSource.data.length" 
-                    [pageSize]="10" 
-                    [pageIndex]="0"
+                    [pageSize]="10"
+                    [hidePageSize]="true"
                 ></mat-paginator>
             </div>
         </div>
