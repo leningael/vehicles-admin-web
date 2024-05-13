@@ -1,0 +1,32 @@
+pipeline {
+
+    agent any
+
+    stages {
+        stage("Install dependencies") {
+            steps {
+                echo 'installing dependencies'
+                sh 'npm install'
+            }
+        }
+        stage("Test") {
+            steps {
+                echo 'running test'
+                // sh 'npm run test'
+            }
+        } 
+        stage("Build") {
+            steps {
+                echo 'building project'
+                sh 'npm run build'
+
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'dist/**', onlyIfSuccessful: true
+        }
+    }
+
+}
