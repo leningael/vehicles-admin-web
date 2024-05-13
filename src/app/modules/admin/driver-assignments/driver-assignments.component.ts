@@ -93,4 +93,18 @@ export class DriverAssignmentsComponent implements OnInit, AfterViewInit {
             this.assignmentsDataSource.data = [result, ...this.assignmentsDataSource.data];
         });
     }
+
+    deleteAssignment(assignment: DriverAssignment) {
+        this._driverAssignmentsService.deactivateDriverAssignment(assignment).subscribe({
+            next: () => {
+                this.assignmentsDataSource.data = this.assignmentsDataSource.data.filter(
+                    (d_assignment) => d_assignment !== assignment
+                );
+            },
+            error: (response) => {
+                const detail = response.error && response.error.detail;
+                this._toastr.error(detail || 'Error deleting assignment');
+            }
+        });
+    }
 }

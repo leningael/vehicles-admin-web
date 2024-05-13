@@ -30,4 +30,8 @@ export class DriverAssignmentsService {
     createDriverAssignment(assignment: DriverAssignmentRequest): Observable<DriverAssignment> {
         return this._httpClient.post<DriverAssignment>(`${this.apiUrl}/driver-assignment`, assignment);
     }
+
+    deactivateDriverAssignment({ driver_id, vehicle_id, travel_date }: DriverAssignment): Observable<void> {
+        return this._httpClient.delete<void>(`${this.apiUrl}/driver-assignment/${driver_id}/${vehicle_id}/${travel_date}`);
+    }
 }
