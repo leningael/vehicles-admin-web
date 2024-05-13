@@ -15,6 +15,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:ticket',
         link : '/invitation-codes'
+    },
+    {
+        id   : 'vehicles',
+        title: 'Vehicles',
+        type : 'basic',
+        icon : 'heroicons_outline:truck',
+        link : '/vehicles'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
@@ -31,5 +38,12 @@ export const compactNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:ticket',
         link : '/invitation-codes'
+    },
+    {
+        id   : 'vehicles',
+        title: 'Vehicles',
+        type : 'basic',
+        icon : 'heroicons_outline:truck',
+        link : '/vehicles'
     }
 ];
