@@ -1,0 +1,169 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+        <!-- CONTENT GOES HERE -->
+        <div class="text-3xl font-bold">Drivers</div>
+        <div class="flex flex-row justify-end mb-4">
+            <button mat-flat-button color="primary" (click)="openDriverDialog()">
+                Add driver
+            </button>
+        </div>
+        <!-- Drivers table -->
+        <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+            <div class="overflow-x-auto mx-6">
+                <table
+                    class="w-full bg-transparent"
+                    mat-table
+                    matSort
+                    [dataSource]="driversDataSource"
+                    #recentTransactionsTable>
+                    <ng-container matColumnDef="name">
+                        <th
+                            mat-header-cell
+                            mat-sort-header
+                            *matHeaderCellDef>
+                            Name
+                        </th>
+                        <td
+                            class="text-center"
+                            mat-cell
+                            *matCellDef="let driver">
+                            <span class="whitespace-nowrap">
+                                {{ driver.name }}
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="last_name">
+                        <th
+                            mat-header-cell
+                            mat-sort-header
+                            *matHeaderCellDef>
+                            Last Name
+                        </th>
+                        <td
+                            class="text-center"
+                            mat-cell
+                            *matCellDef="let driver">
+                            <span class="whitespace-nowrap">
+                                {{ driver.last_name }}
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="birth_date">
+                        <th
+                            mat-header-cell
+                            mat-sort-header
+                            *matHeaderCellDef>
+                            Birthdate
+                        </th>
+                        <td
+                            class="text-center"
+                            mat-cell
+                            *matCellDef="let driver">
+                            <span class="whitespace-nowrap">
+                                {{ driver.birth_date | date }}
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="curp">
+                        <th
+                            mat-header-cell
+                            mat-sort-header
+                            *matHeaderCellDef>
+                            CURP
+                        </th>
+                        <td
+                            class="text-center"
+                            mat-cell
+                            *matCellDef="let driver">
+                            <span class="whitespace-nowrap">
+                                {{ driver.curp }}
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="address">
+                        <th
+                            mat-header-cell
+                            mat-sort-header
+                            *matHeaderCellDef>
+                            Address
+                        </th>
+                        <td
+                            class="text-center"
+                            mat-cell
+                            *matCellDef="let driver">
+                            <span class="whitespace-nowrap">
+                                {{ driver.address }}
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="monthly_salary">
+                        <th
+                            mat-header-cell
+                            mat-sort-header
+                            *matHeaderCellDef>
+                            Monthly salary
+                        </th>
+                        <td
+                            class="text-center"
+                            mat-cell
+                            *matCellDef="let driver">
+                            <span class="whitespace-nowrap">
+                                {{ driver.monthly_salary }}
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="driving_license">
+                        <th
+                            mat-header-cell
+                            mat-sort-header
+                            *matHeaderCellDef>
+                            Driving license
+                        </th>
+                        <td
+                            class="text-center"
+                            mat-cell
+                            *matCellDef="let driver">
+                            <span class="whitespace-nowrap">
+                                {{ driver.driving_license }}
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="registration_date">
+                        <th 
+                            mat-header-cell
+                            mat-sort-header
+                            *matHeaderCellDef>
+                            Registration date
+                        </th>
+                        <td
+                            class="text-center"
+                            mat-cell
+                            *matCellDef="let driver">
+                            <span class="whitespace-nowrap">
+                                {{ driver.registration_date | date }}
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="actions">
+                        <th
+                            mat-header-cell
+                            mat-sort-header
+                            *matHeaderCellDef>  
+                            Actions                        
+                        </th>
+                       
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="driversTableColumns"></tr>
+                    <tr  class="order-row h-16" mat-row *matRowDef="let row; columns: driversTableColumns;"></tr>
+                </table>
+                <mat-paginator 
+                    showFirstLastButtons 
+                    [length]="driversDataSource.data.length" 
+                    [pageSize]="2" 
+                    [pageIndex]="0"
+                ></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
