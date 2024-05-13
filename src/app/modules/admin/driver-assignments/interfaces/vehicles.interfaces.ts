@@ -1,4 +1,3 @@
-// TODO: Move this to vehicles module
 export interface Vehicle {
     id: number;
     brand: string;
@@ -9,4 +8,11 @@ export interface Vehicle {
     cost: number;
     picture: string;
     entry_date: string;
+}
+
+export interface AssignmentVehicle {
+    brand: string;
+    model: string;
+    vin: string;
+    plate: string;
 }

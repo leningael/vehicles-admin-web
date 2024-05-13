@@ -1,3 +1,6 @@
+import { AssginmentDriver } from "./drivers.interfaces";
+import { AssignmentVehicle } from "./vehicles.interfaces";
+
 export interface RouteLocation {
     latitude: number;
     longitude: number;
@@ -36,4 +39,6 @@ export interface DriverAssignment {
     comments: string | null;
     creation_date: string;
     active: boolean;
+    driver: AssginmentDriver;
+    vehicle: AssignmentVehicle;
 }

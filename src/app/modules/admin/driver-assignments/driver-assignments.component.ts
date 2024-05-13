@@ -43,8 +43,8 @@ export class DriverAssignmentsComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     displayedColumns: string[] = [
-        'driver_id',
-        'vehicle_id',
+        'driver',
+        'vehicle',
         'travel_date',
         'route_name',
         'destination',

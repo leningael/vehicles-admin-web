@@ -1,4 +1,3 @@
-// TODO: Move this to drivers module
 export interface Driver{
     id: number;
     name: string;
@@ -9,4 +8,11 @@ export interface Driver{
     address: string;
     monthly_salary: number;
     registration_date: string;
+}
+
+export interface AssginmentDriver{
+    first_name: string;
+    last_name: string;
+    curp: string;
+    license_number: string;
 }
