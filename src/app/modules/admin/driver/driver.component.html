@@ -164,7 +164,10 @@
                                     <mat-icon>edit</mat-icon>
                                     <span>Edit</span>
                                 </button>
-                               
+                                <button mat-menu-item (click)="deleteDriver(driver.id)">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
                             </mat-menu>    
                         </td>
                     </ng-container>
