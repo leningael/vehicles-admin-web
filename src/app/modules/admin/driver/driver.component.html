@@ -152,7 +152,21 @@
                             *matHeaderCellDef>  
                             Actions                        
                         </th>
-                       
+                        <td
+                            class="text-center"
+                            mat-cell
+                            *matCellDef="let driver">
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="openDriverDialog(driver)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                               
+                            </mat-menu>    
+                        </td>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="driversTableColumns"></tr>
                     <tr  class="order-row h-16" mat-row *matRowDef="let row; columns: driversTableColumns;"></tr>

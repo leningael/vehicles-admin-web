@@ -30,7 +30,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 export class DriverComponent implements OnInit {
   private _toastr = inject(ToastrService);
   private _driverService = inject(DriverService);
-  public driversTableColumns: string[] = ['name', 'last_name', 'birth_date', 'curp', 'address', 'monthly_salary', 'driving_license', 'registration_date'];
+  public driversTableColumns: string[] = ['name', 'last_name', 'birth_date', 'curp', 'address', 'monthly_salary', 'driving_license', 'registration_date', 'actions'];
   public driversDataSource: MatTableDataSource<Driver> = new MatTableDataSource();
   public dialog = inject(MatDialog);
   @ViewChild(MatPaginator) paginator: MatPaginator;
