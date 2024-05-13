@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
@@ -17,9 +17,13 @@ export class DriverAssignmentsService {
     readonly apiUrl: string = environment.apiUrl;
     private _httpClient = inject(HttpClient);
 
-    getActiveDriverAssignments(): Observable<DriverAssignment[]> {
+    getActiveDriverAssignments(travel_date?: string): Observable<DriverAssignment[]> {
+        let params = new HttpParams();
+        if (travel_date) {
+            params = params.set('travel_date', travel_date);
+        }
         return this._httpClient.get<DriverAssignment[]>(
-            `${this.apiUrl}/driver-assignment/active`
+            `${this.apiUrl}/driver-assignment/active`, { params }
         );
     }
 

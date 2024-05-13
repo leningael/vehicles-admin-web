@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DriverService } from './services/dirver.service';
+import { DriverService } from './services/driver.service';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { Driver } from './interfaces/driver.interfaces';
 import { ToastrService } from 'ngx-toastr';
