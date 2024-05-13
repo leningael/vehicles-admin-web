@@ -61,6 +61,7 @@ export const appRoutes: Route[] = [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.routes')},
             {path: 'drivers', loadChildren: () => import('app/modules/admin/driver/driver.routes')},
             {path: 'invitation-codes', loadChildren: () => import('app/modules/admin/invitation-codes/invitation-codes.routes')},
+            {path: 'driver-assignments', loadChildren: () => import('app/modules/admin/driver-assignments/driver-assignments.routes')},
         ]
     },
 

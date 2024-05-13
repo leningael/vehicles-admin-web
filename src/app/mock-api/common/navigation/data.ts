@@ -10,6 +10,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link : '/example'
     },
     {
+        id   : 'driver-assignments',
+        title: 'Driver Assignments',
+        type : 'basic',
+        icon : 'mat_solid:car_rental',
+        link : '/driver-assignments'
+    },
+    {
         id   : 'drivers',
         title: 'Drivers',
         type : 'basic',
@@ -22,7 +29,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:ticket',
         link : '/invitation-codes'
-    }
+    },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
@@ -31,6 +38,13 @@ export const compactNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
+    },
+    {
+        id   : 'driver-assignments',
+        title: 'Driver Assignments',
+        type : 'basic',
+        icon : 'mat_solid:car_rental',
+        link : '/driver-assignments'
     },
     {
         id   : 'drivers',
@@ -45,5 +59,5 @@ export const compactNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:ticket',
         link : '/invitation-codes'
-    }
+    },
 ];

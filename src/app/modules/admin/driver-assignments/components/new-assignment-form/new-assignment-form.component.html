@@ -1,0 +1,187 @@
+<section class="flex flex-col overflow-hidden">
+    <div class="flex justify-between items-center gap-2 mb-3">
+        <h3 class="text-2xl font-semibold">Assign driver to a vehicle</h3>
+        <button mat-icon-button (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <form
+        [formGroup]="assignmentForm"
+        class="flex flex-col my-4 bg-card shadow rounded overflow-auto"
+    >
+        <div class="bg-gray-50 dark:bg-gray-700 p-4 border-b">
+            <p class="text-lg font-medium">Assignment</p>
+            <p class="text-secondary">
+                Select driver, vehicle to assign in the specified travel date
+            </p>
+        </div>
+        <div class="flex flex-col p-4">
+            <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                <mat-form-field
+                    class="flex-auto gt-xs:pr-3"
+                    subscriptSizing="dynamic"
+                >
+                    <mat-label>Driver</mat-label>
+                    <mat-select formControlName="driver_id">
+                        <mat-option [value]="0">Select driver</mat-option>
+                        @for (driver of drivers; track driver.id) {
+                        <mat-option [value]="driver.id">{{
+                            driver.name + " " + driver.last_name
+                        }}</mat-option>
+                        }
+                    </mat-select>
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        svgIcon="mat_solid:person"
+                    ></mat-icon>
+                </mat-form-field>
+                <mat-form-field
+                    class="flex-auto gt-xs:pr-3"
+                    subscriptSizing="dynamic"
+                >
+                    <mat-label>Driver</mat-label>
+                    <mat-select formControlName="vehicle_id">
+                        <mat-option [value]="0">Select vehicle vin</mat-option>
+                        @for (vehicle of vehicles; track vehicle.id) {
+                        <mat-option [value]="vehicle.id">{{
+                            vehicle.vin
+                        }}</mat-option>
+                        }
+                    </mat-select>
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        svgIcon="mat_solid:directions_car"
+                    ></mat-icon>
+                </mat-form-field>
+            </div>
+            <mat-form-field subscriptSizing="dynamic">
+                <mat-label>Travel date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="travel_date" />
+                <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="bg-gray-50 dark:bg-gray-700 p-4 border-t border-b">
+            <p class="text-lg font-medium">Route</p>
+            <p class="text-secondary">Specify the route for the assignment</p>
+        </div>
+        <div class="flex flex-col p-4">
+            <mat-form-field>
+                <mat-label>Route name</mat-label>
+                <input matInput formControlName="route_name" />
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    svgIcon="mat_solid:drive_file_rename_outline"
+                ></mat-icon>
+            </mat-form-field>
+            <p class="font-semibold mb-2">Origin</p>
+            <div class="flex gap-3 mb-4" formGroupName="origin_location">
+                <mat-form-field class="flex-auto" subscriptSizing="dynamic">
+                    <mat-label>Latitude</mat-label>
+                    <input
+                        type="number"
+                        matInput
+                        placeholder="Enter latitude"
+                        formControlName="latitude"
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        svgIcon="mat_solid:location_on"
+                    ></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto" subscriptSizing="dynamic">
+                    <mat-label>Longitude</mat-label>
+                    <input
+                        type="number"
+                        matInput
+                        placeholder="Enter longitude"
+                        formControlName="longitude"
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        svgIcon="mat_solid:location_on"
+                    ></mat-icon>
+                </mat-form-field>
+            </div>
+            <mat-divider class="mt-2 mb-4"></mat-divider>
+            <p class="font-semibold mb-2">Destination</p>
+            <div class="flex gap-3 mb-4" formGroupName="destination_location">
+                <mat-form-field class="flex-auto" subscriptSizing="dynamic">
+                    <mat-label>Latitude</mat-label>
+                    <input
+                        type="number"
+                        matInput
+                        placeholder="Enter latitude"
+                        formControlName="latitude"
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        svgIcon="mat_solid:location_on"
+                    ></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto" subscriptSizing="dynamic">
+                    <mat-label>Longitude</mat-label>
+                    <input
+                        type="number"
+                        matInput
+                        placeholder="Enter longitude"
+                        formControlName="longitude"
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        svgIcon="mat_solid:location_on"
+                    ></mat-icon>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="p-4 bg-gray-50 dark:bg-gray-700">
+            <p class="text-lg font-medium">Additional information</p>
+            <p class="text-secondary">
+                Provide additional information about the assignment route
+            </p>
+        </div>
+        <div class="flex flex-col p-4">
+            <mat-slide-toggle color="primary" formControlName="completed_successfully" class="mb-4">
+                Completed successfully
+            </mat-slide-toggle>
+            <mat-form-field>
+                <mat-label>Problem description</mat-label>
+                <input matInput formControlName="problem_description" />
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    svgIcon="mat_solid:report_problem"
+                ></mat-icon>
+            </mat-form-field>
+            <mat-form-field subscriptSizing="dynamic">
+                <mat-label>Comments</mat-label>
+                <textarea
+                    matInput
+                    formControlName="comments"
+                    placeholder="Enter comments"
+                ></textarea>
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    svgIcon="mat_solid:notes"
+                ></mat-icon>
+            </mat-form-field>
+        </div>
+    </form>
+    <div class="flex justify-end">
+        <button mat-flat-button color="primary" (click)="saveAssignment()">
+            <mat-icon>save</mat-icon>
+            Save assignment
+        </button>
+    </div>
+</section>
