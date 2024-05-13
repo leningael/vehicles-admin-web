@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import InvitationCodesComponent from "./invitation-codes.component";
+import { InvitationCodesComponent } from "./invitation-codes.component";
 
 export default [
     {

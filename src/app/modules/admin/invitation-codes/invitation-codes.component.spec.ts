@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import InvitationCodesComponent from './invitation-codes.component';
+import { InvitationCodesComponent } from './invitation-codes.component';
 
 describe('InvitationCodesComponent', () => {
   let component: InvitationCodesComponent;
