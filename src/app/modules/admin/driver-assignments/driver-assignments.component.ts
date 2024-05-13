@@ -1,13 +1,22 @@
-import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    OnInit,
+    ViewChild,
+    inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DriverAssignment } from './interfaces/driver-assignments.interfaces';
 import { DriverAssignmentsService } from './services/driver-assignments.service';
-import { ToastrService } from 'ngx-toastr';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
+import { NewAssignmentFormComponent } from './components/new-assignment-form/new-assignment-form.component';
 
 @Component({
     selector: 'app-driver-assignments',
@@ -15,18 +24,24 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
     imports: [
         CommonModule,
         MatButtonModule,
+        MatDialogModule,
         MatIconModule,
-        MatTableModule,
         MatMenuModule,
         MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+        NewAssignmentFormComponent,
     ],
     templateUrl: './driver-assignments.component.html',
     styleUrl: './driver-assignments.component.scss',
 })
 export class DriverAssignmentsComponent implements OnInit, AfterViewInit {
-    @ViewChild(MatPaginator) paginator: MatPaginator;
     private _driverAssignmentsService = inject(DriverAssignmentsService);
     private _toastr = inject(ToastrService);
+    private _dialog = inject(MatDialog);
+
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatSort) sort: MatSort;
     displayedColumns: string[] = [
         'driver_id',
         'vehicle_id',
@@ -50,7 +65,8 @@ export class DriverAssignmentsComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-      this.assignmentsDataSource.paginator = this.paginator;
+        this.assignmentsDataSource.paginator = this.paginator;
+        this.assignmentsDataSource.sort = this.sort;
     }
 
     getPendingAssignmentsCount(): number {
@@ -63,5 +79,18 @@ export class DriverAssignmentsComponent implements OnInit, AfterViewInit {
         return this.assignmentsDataSource.data.filter(
             (assignment) => assignment.completed_successfully
         ).length;
+    }
+
+    addNewAssignment() {
+        const dialofRef = this._dialog.open(NewAssignmentFormComponent, {
+            width: '600px',
+            maxHeight: '90vh',
+            autoFocus: false,
+        });
+        dialofRef.afterClosed().subscribe((result) => {
+            if (!result) return;
+            console.log(result);
+            this.assignmentsDataSource.data = [result, ...this.assignmentsDataSource.data];
+        });
     }
 }
