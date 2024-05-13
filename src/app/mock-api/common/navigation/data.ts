@@ -3,11 +3,11 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
-        title: 'Example',
+        id   : 'dashboard',
+        title: 'Dashboard',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
-        link : '/example'
+        link : '/dashboard'
     },
     {
         id   : 'driver-assignments',
@@ -24,27 +24,27 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link : '/driver'
     },
     {
+        id   : 'vehicles',
+        title: 'Vehicles',
+        type : 'basic',
+        icon : 'heroicons_outline:truck',
+        link : '/vehicles'
+    },
+    {
         id   : 'invitation-codes',
         title: 'Invitation Codes',
         type : 'basic',
         icon : 'heroicons_outline:ticket',
         link : '/invitation-codes'
     },
-    {
-        id   : 'vehicles',
-        title: 'Vehicles',
-        type : 'basic',
-        icon : 'heroicons_outline:truck',
-        link : '/vehicles'
-    }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
-        title: 'Example',
+        id   : 'dashboard',
+        title: 'Dashboard',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
-        link : '/example'
+        link : '/dashboard'
     },
     {
         id   : 'driver-assignments',
@@ -61,17 +61,17 @@ export const compactNavigation: FuseNavigationItem[] = [
         link : '/drivers'
     },
     {
+        id   : 'vehicles',
+        title: 'Vehicles',
+        type : 'basic',
+        icon : 'heroicons_outline:truck',
+        link : '/vehicles'
+    },
+    {
         id   : 'invitation-codes',
         title: 'Invitation Codes',
         type : 'basic',
         icon : 'heroicons_outline:ticket',
         link : '/invitation-codes'
     },
-    {
-        id   : 'vehicles',
-        title: 'Vehicles',
-        type : 'basic',
-        icon : 'heroicons_outline:truck',
-        link : '/vehicles'
-    }
 ];
