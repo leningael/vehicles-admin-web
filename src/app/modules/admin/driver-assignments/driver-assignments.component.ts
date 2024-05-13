@@ -81,16 +81,20 @@ export class DriverAssignmentsComponent implements OnInit, AfterViewInit {
         ).length;
     }
 
-    addNewAssignment() {
+    openAssignmentDialog(assignment?: DriverAssignment): void {
         const dialofRef = this._dialog.open(NewAssignmentFormComponent, {
             width: '600px',
             maxHeight: '90vh',
             autoFocus: false,
+            data: assignment || null,
         });
         dialofRef.afterClosed().subscribe((result) => {
             if (!result) return;
-            console.log(result);
-            this.assignmentsDataSource.data = [result, ...this.assignmentsDataSource.data];
+            if (assignment){            
+                Object.assign(assignment, result);
+            } else {
+                this.assignmentsDataSource.data = [result, ...this.assignmentsDataSource.data];
+            }     
         });
     }
 

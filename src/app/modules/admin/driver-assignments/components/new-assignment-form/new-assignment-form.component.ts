@@ -20,6 +20,7 @@ import { Vehicle } from '../../interfaces/vehicles.interfaces';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { DateTime } from 'luxon';
+import { DriverAssignment } from '../../interfaces/driver-assignments.interfaces';
 
 @Component({
     selector: 'app-new-assignment-form',
@@ -44,7 +45,7 @@ export class NewAssignmentFormComponent implements OnInit {
     private _formBuilder = inject(UntypedFormBuilder);
     private _toastr = inject(ToastrService);
     private _driverAssignmentsService = inject(DriverAssignmentsService);
-    // public data: any = inject(MAT_DIALOG_DATA);
+    public data: DriverAssignment = inject(MAT_DIALOG_DATA);
     assignmentForm: UntypedFormGroup = this._formBuilder.group({
         driver_id: [0, [Validators.required, Validators.min(1)]],
         vehicle_id: [0, [Validators.required, Validators.min(1)]],
@@ -65,7 +66,32 @@ export class NewAssignmentFormComponent implements OnInit {
     drivers: Driver[] = [];
     vehicles: Vehicle[] = [];
 
+    constructor() {
+        if (this.data) {
+            this.assignFormValues(this.data);
+        }
+        this.requestDrivers();
+        this.requestVehicles();
+    }
+
     ngOnInit(): void {}
+
+    assignFormValues(data: DriverAssignment): void {
+        this.assignmentForm.reset({
+            driver_id: { value: data.driver_id, disabled: true },
+            vehicle_id: { value: data.vehicle_id, disabled: true },
+            travel_date: {
+                value: DateTime.fromISO(data.travel_date),
+                disabled: true,
+            },
+            route_name: data.route_name,
+            origin_location: data.origin_location,
+            destination_location: data.destination_location,
+            completed_successfully: data.completed_successfully,
+            problem_description: data.problem_description,
+            comments: data.comments,
+        });
+    }
 
     requestDrivers(): void {
         this._driverAssignmentsService.getDrivers().subscribe({
@@ -94,6 +120,14 @@ export class NewAssignmentFormComponent implements OnInit {
             this.assignmentForm.markAllAsTouched();
             return;
         }
+        if (this.data) {
+            this.updateAssignment();
+        } else {
+            this.createAssignment();
+        }
+    }
+
+    createAssignment(): void {
         this._driverAssignmentsService
             .createDriverAssignment(this.assignmentForm.value)
             .subscribe({
@@ -103,9 +137,28 @@ export class NewAssignmentFormComponent implements OnInit {
                 },
                 error: (response) => {
                     const detail = response.error && response.error.detail;
-                    this._toastr.error(
-                        detail || 'Error saving assignment'
-                    );
+                    this._toastr.error(detail || 'Error saving assignment');
+                },
+            });
+    }
+
+    updateAssignment(): void {
+        const { driver_id, vehicle_id, travel_date } = this.data;
+        this._driverAssignmentsService
+            .updateDriverAssignment(
+                driver_id,
+                vehicle_id,
+                travel_date,
+                this.assignmentForm.value
+            )
+            .subscribe({
+                next: (assignment) => {
+                    this._toastr.success('Assignment updated successfully');
+                    this._dialogRef.close(assignment);
+                },
+                error: (response) => {
+                    const detail = response.error && response.error.detail;
+                    this._toastr.error(detail || 'Error updating assignment');
                 },
             });
     }
