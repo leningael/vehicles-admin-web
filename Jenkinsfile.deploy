@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Copy Archive') {
             steps {
-                copyArtifacts(projectName: 'flotilla-devops');
+                copyArtifacts(projectName: 'flotilla-vehiculos-build');
                 sh 'ls -a'
             }
         }
