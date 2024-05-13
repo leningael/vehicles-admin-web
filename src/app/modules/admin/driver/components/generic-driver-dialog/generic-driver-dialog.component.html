@@ -1,0 +1,58 @@
+<div class="flex justify-between mb-4">
+    <div class="text-2xl font-bold">{{ action }} driver</div>
+    <button mat-icon-button (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+<form [formGroup]="driverForm" (ngSubmit)="saveDriver()" class="flex flex-col">
+    <div class="flex flex-row gap-4">
+        <mat-form-field
+            class="flex-auto">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name"/>
+        </mat-form-field>
+        <mat-form-field
+            class="flex-auto">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="last_name"/>
+        </mat-form-field>
+    </div>
+    <div class="flex flex-row gap-4">
+        <mat-form-field
+            class="flex-auto w-1/2">
+            <mat-label>Birthdate</mat-label>
+            <input matInput [matDatepicker]="picker" readonly formControlName="birth_date"/>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        
+        <mat-form-field
+            class="flex-auto w-1/2">
+            <mat-label>CURP</mat-label>
+            <input matInput formControlName="curp"/>
+        </mat-form-field>
+    </div>
+    <mat-form-field
+        class="flex-auto">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address" />
+    </mat-form-field>
+    <div class="flex flex-row gap-4">
+        <mat-form-field
+            class="flex-auto">
+            <mat-label>Monthly salary</mat-label>
+            <input matInput formControlName="monthly_salary" type="number" placeholder="0.0"/>
+        </mat-form-field>
+        <mat-form-field
+            class="flex-auto">
+            <mat-label>Driving license</mat-label>
+            <input matInput formControlName="driving_license"/>
+        </mat-form-field>
+    </div>
+    <div class="flex justify-end">
+        <button mat-raised-button color="primary" type="submit">
+            {{ action === 'Edit' ? 'Save' : 'Add'}}
+        </button>
+    </div>
+</form>

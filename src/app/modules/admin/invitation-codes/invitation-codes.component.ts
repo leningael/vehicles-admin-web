@@ -32,7 +32,7 @@ import { FormValidatorsService } from 'app/shared/services/form-validators.servi
     templateUrl: './invitation-codes.component.html',
     styleUrl: './invitation-codes.component.scss',
 })
-export default class InvitationCodesComponent implements OnInit {
+export class InvitationCodesComponent implements OnInit {
     private _invitationCodesService = inject(InvitationCodesService);
     private _toastr = inject(ToastrService);
     private _formBuilder = inject(UntypedFormBuilder);
@@ -68,7 +68,6 @@ export default class InvitationCodesComponent implements OnInit {
                 ])
             );
         });
-        console.log(this.invitationsArrayCtrl);
     }
 
     addNewInvitation() {

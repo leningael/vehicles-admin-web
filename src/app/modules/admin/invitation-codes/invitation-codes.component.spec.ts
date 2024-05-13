@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import InvitationCodesComponent from './invitation-codes.component';
+
+import { InvitationCodesComponent } from './invitation-codes.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('InvitationCodesComponent', () => {
   let component: InvitationCodesComponent;
@@ -7,7 +10,7 @@ describe('InvitationCodesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InvitationCodesComponent]
+      imports: [InvitationCodesComponent, HttpClientModule, ToastrModule.forRoot()],
     })
     .compileComponents();
     
