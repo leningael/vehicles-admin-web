@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DriverService } from './services/driver.service';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -27,7 +27,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
   ],
   templateUrl: './driver.component.html',
 })
-export class DriverComponent implements OnInit {
+export class DriverComponent implements OnInit, AfterViewInit {
   private _toastr = inject(ToastrService);
   private _driverService = inject(DriverService);
   public driversTableColumns: string[] = ['name', 'last_name', 'birth_date', 'curp', 'address', 'monthly_salary', 'driving_license', 'registration_date', 'actions'];
@@ -40,12 +40,15 @@ export class DriverComponent implements OnInit {
     this.getDrivers();
   }
 
+  ngAfterViewInit(): void {
+    this.driversDataSource.paginator = this.paginator;
+    this.driversDataSource.sort = this.sort;
+  }
+
   getDrivers(): void {
     this._driverService.getDrivers().subscribe({
       next: (drivers: Driver[]) => {
         this.driversDataSource.data = drivers;
-        this.driversDataSource.paginator = this.paginator;
-        this.driversDataSource.sort = this.sort;
       },
       error: () => {
         this._toastr.error('Error fetching drivers');
@@ -56,14 +59,12 @@ export class DriverComponent implements OnInit {
   deleteDriver(id: number): void {
     this._driverService.deleteDriver(id).subscribe({
       next: () => {
-        const index = this.driversDataSource.data.findIndex((driver) => driver.id === id);
-        this.driversDataSource.data.splice(index, 1);
-        this.driversDataSource._updateChangeSubscription();
-        this._toastr.success('Driver deleted');
+        this.driversDataSource.data = this.driversDataSource.data.filter((driver: Driver) => driver.id !== id);
       },
-      error: () => {
-        this._toastr.error('Error deleting driver');
-      },
+      error: (response) => {
+        const detail = response.error && response.error.detail;
+        this._toastr.error(detail || 'Error deleting driver');
+      }
     });
   }
 

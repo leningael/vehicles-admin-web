@@ -54,6 +54,15 @@ export class DriverAssignmentsComponent implements OnInit, AfterViewInit {
     assignmentsDataSource = new MatTableDataSource<DriverAssignment>([]);
 
     ngOnInit(): void {
+        this.requestActiveAssignments();
+    }
+
+    ngAfterViewInit(): void {
+        this.assignmentsDataSource.paginator = this.paginator;
+        this.assignmentsDataSource.sort = this.sort;
+    }
+
+    requestActiveAssignments(): void {
         this._driverAssignmentsService.getActiveDriverAssignments().subscribe({
             next: (assignments: DriverAssignment[]) => {
                 this.assignmentsDataSource.data = assignments;
@@ -62,11 +71,6 @@ export class DriverAssignmentsComponent implements OnInit, AfterViewInit {
                 this._toastr.error('Error fetching driver assignments');
             },
         });
-    }
-
-    ngAfterViewInit(): void {
-        this.assignmentsDataSource.paginator = this.paginator;
-        this.assignmentsDataSource.sort = this.sort;
     }
 
     getPendingAssignmentsCount(): number {
@@ -86,6 +90,7 @@ export class DriverAssignmentsComponent implements OnInit, AfterViewInit {
             width: '600px',
             maxHeight: '90vh',
             autoFocus: false,
+            disableClose: true,
             data: assignment || null,
         });
         dialofRef.afterClosed().subscribe((result) => {

@@ -69,9 +69,10 @@ export class GenericDriverDIalogComponent {
         this._toastr.success('Driver created');
         this.dialogRef.close(newDriver);
       },
-      error: () => {
-        this._toastr.error('Error creating driver');
-      },
+      error: (response) => {
+        const detail = response.error && response.error.detail;
+        this._toastr.error(detail || 'Error creating driver');
+      }
     });
   }
 
@@ -81,9 +82,10 @@ export class GenericDriverDIalogComponent {
         this._toastr.success('Driver updated');
         this.dialogRef.close(updatedDriver);
       },
-      error: () => {
-        this._toastr.error('Error updating driver');
-      },
+      error: (response) => {
+        const detail = response.error && response.error.detail;
+        this._toastr.error(detail || 'Error updating driver');
+      }
     });
   }
 
