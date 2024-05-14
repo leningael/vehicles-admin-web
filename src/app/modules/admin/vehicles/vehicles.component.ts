@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { VehiclesService } from './services/vehicles.service';
 import { Vehicle } from './interfaces/vehicles.interfaces';
 import { GenericVehicleDialogComponent } from './components/generic-vehicle-dialog/generic-vehicle-dialog.component';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -22,18 +22,18 @@ import { MatDialog } from '@angular/material/dialog';
     MatTableModule,
     MatMenuModule,
     MatPaginatorModule,
+    MatSortModule
 ],
   templateUrl: './vehicles.component.html',
   styleUrl: './vehicles.component.scss'
 })
-export class VehiclesComponent {
+export class VehiclesComponent implements OnInit, AfterViewInit{
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     public dialog = inject(MatDialog);
     private _vehiclesService = inject(VehiclesService);
     private _toastr = inject(ToastrService);
     displayedColumns: string[] = [
-        'id',
         'brand',
         'model',
         'vin',
@@ -46,26 +46,18 @@ export class VehiclesComponent {
     vehiclesDataSource = new MatTableDataSource<Vehicle>([]);
   
     ngOnInit(): void {
-        this._vehiclesService.getVehicles().subscribe({
-            next: (vehicles: Vehicle[]) => {
-                this.vehiclesDataSource.data = vehicles;
-            },
-            error: () => {
-                this._toastr.error('Error fetching vehicles');
-            },
-        });
+      this.getVehicles();
     }
 
     ngAfterViewInit(): void {
       this.vehiclesDataSource.paginator = this.paginator;
+      this.vehiclesDataSource.sort = this.sort;
     }
 
     getVehicles(): void {
       this._vehiclesService.getVehicles().subscribe({
         next: (vehicles: Vehicle[]) => {
           this.vehiclesDataSource.data = vehicles;
-          this.vehiclesDataSource.paginator = this.paginator;
-          this.vehiclesDataSource.sort = this.sort;
         },
         error: () => {
           this._toastr.error('Error fetching vehicles');
@@ -76,14 +68,12 @@ export class VehiclesComponent {
     deleteVehicle(id: number): void {
       this._vehiclesService.deleteVehicle(id).subscribe({
         next: () => {
-          const index = this.vehiclesDataSource.data.findIndex((vehicle) => vehicle.id === id);
-          this.vehiclesDataSource.data.splice(index, 1);
-          this.vehiclesDataSource._updateChangeSubscription();
-          this._toastr.success('Vehicle deleted');
+          this.vehiclesDataSource.data = this.vehiclesDataSource.data.filter((vehicle) => vehicle.id !== id);
         },
-        error: () => {
-          this._toastr.error('Error deleting vehicle');
-        },
+        error: (response) => {
+          const detail = response.error && response.error.detail;
+          this._toastr.error(detail || 'Error deleting vehicle');
+        }
       });
     }
 
