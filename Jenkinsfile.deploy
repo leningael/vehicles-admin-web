@@ -2,30 +2,18 @@ pipeline {
     agent any
 
     stages {
-        stage('Copy Archive') {
+        stage('Copying artifacts from build pipeline') {
             steps {
-                copyArtifacts(projectName: 'flotilla-vehiculos-build');
-                sh 'ls -a'
+                echo 'Copying artifacts from build pipeline step started'
+                copyArtifacts(projectName: 'Builder')
+                sh 'ls -la'
             }
         }
-        stage('Stop all previous container') {
+        stage('Sending files to server') {
             steps {
-                echo 'Stoping all containers related to project'
-                script {
-                    sh 'sudo docker ps -a | grep administrador-flotilla | awk \'{print $1}\' | xargs docker stop'
-                }
-            }
-        }
-        stage('Build') {
-            steps {
-                echo 'Build Docker image step started'
-                sh "sudo docker build -t spaghetti-scripters-administrador-flotilla:${BUILD_NUMBER} ."
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploy Docker image step started'
-                sh "sudo docker run -d -p 80:80 --name administrador-flotilla-${BUILD_NUMBER} spaghetti-scripters-administrador-flotilla:${BUILD_NUMBER}"
+                echo 'Sending files to server step started'
+                sh 'scp nginx.conf abrahamem@Debian@orb:/etc/nginx/conf.d/default.conf'
+                sh 'scp -r dist/* abrahamem@Debian@orb:/var/www'
             }
         }
     }
