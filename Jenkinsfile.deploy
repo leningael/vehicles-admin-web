@@ -16,19 +16,22 @@ pipeline {
             steps {
                 echo 'Creating Nginx configuration step started'
                 script {
-                    sh """
-                    echo "http {
-                            server {
-                                listen 80 default_server;
+                    sh '''
+                    echo "
+                        events {}
 
-                                location / {
-                                    root   /var/www/v${BUILD_NUMBER};
-                                    index  index.html;
-                                    try_files \$uri \$uri/ /index.html =404;
+                        http {
+                                server {
+                                        listen 80 default_server;
+
+                                        location / {
+                                                root   /var/www/v6;
+                                                index  index.html;
+                                                try_files  / /index.html =404;
+                                        }
                                 }
-                            }
                         }" > nginx.conf
-                    """
+                    '''
                     sh 'cat nginx.conf'
                 }
             }
@@ -37,7 +40,7 @@ pipeline {
             steps {
                 echo 'Sending files to server step started'
                 sh "scp nginx.conf ${SERVER}:/etc/nginx/nginx.conf"
-                sh "ssh -t ${SERVER} 'sudo systemctl restart nginx'"
+                sh "ssh -t ${SERVER} 'systemctl restart nginx'"
                 sh "scp -r dist/fuse/* ${SERVER}:/var/www/v${BUILD_NUMBER}"
             }
         }
