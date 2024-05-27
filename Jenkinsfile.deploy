@@ -16,7 +16,7 @@ pipeline {
             steps {
                 echo 'Configuring Nginx in server step started'
                 script {
-                    sh '''
+                    sh """
                     echo '
                     events {}
 
@@ -30,11 +30,11 @@ pipeline {
                             server_name _;
 
                             location / {
-                                try_files $uri $uri/ =404;
+                                try_files \$uri \$uri/ =404;
                             }
                         }
                     }' > nginx.conf
-                    '''
+                    """
                     sh "scp nginx.conf ${SERVER}:/etc/nginx/nginx.conf"
                     sh "ssh -t ${SERVER} 'systemctl restart nginx'"
                 }
