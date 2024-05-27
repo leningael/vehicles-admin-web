@@ -1,19 +1,22 @@
 pipeline {
     agent any
 
+    enviroment {
+        SERVER = 'root@Debian@orb'
+    }
+
     stages {
         stage('Copying artifacts from build pipeline') {
             steps {
                 echo 'Copying artifacts from build pipeline step started'
                 copyArtifacts(projectName: 'Builder')
-                sh 'ls -la'
             }
         }
         stage('Sending files to server') {
             steps {
                 echo 'Sending files to server step started'
-                sh 'scp nginx.conf abrahamem@Debian@orb:/etc/nginx/conf.d/default.conf'
-                sh 'scp -r dist/* abrahamem@Debian@orb:/var/www'
+                sh "scp nginx.conf ${SERVER}:/etc/nginx/conf.d/default.conf"
+                sh "scp -r dist/fuse/* ${SERVER}:/var/www"
             }
         }
     }
