@@ -12,11 +12,31 @@ pipeline {
                 copyArtifacts(projectName: 'Builder')
             }
         }
+        stage('Creating Nginx configuration') {
+            steps {
+                echo 'Creating Nginx configuration step started'
+                script {
+                    sh """
+                    echo "server {
+                        listen 80;
+
+                        location / {
+                            root   /var/www/${BUILD_NUMBER};
+                            index  index.html;
+                            try_files \$uri \$uri/ /index.html =404;
+                        }
+                    }" > nginx.conf
+                    """
+                    sh 'cat nginx.conf'
+                }
+            }
+        }
         stage('Sending files to server') {
             steps {
                 echo 'Sending files to server step started'
                 sh "scp nginx.conf ${SERVER}:/etc/nginx/conf.d/default.conf"
-                sh "scp -r dist/fuse/* ${SERVER}:/var/www"
+                sh "ssh -t ${SERVER} 'sudo systemctl restart nginx'"
+                sh "scp -r dist/fuse/* ${SERVER}:/var/www/${BUILD_NUMBER}"
             }
         }
     }
