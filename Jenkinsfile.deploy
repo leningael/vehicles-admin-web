@@ -12,36 +12,43 @@ pipeline {
                 copyArtifacts(projectName: 'Builder')
             }
         }
-        stage('Creating Nginx configuration') {
+        stage('Configuring Nginx in server') {
             steps {
-                echo 'Creating Nginx configuration step started'
+                echo 'Configuring Nginx in server step started'
                 script {
-                    sh '''
+                    sh """
                     echo "
                         events {}
 
                         http {
-                                server {
-                                        listen 80 default_server;
+                            server {
+                                listen 80 default_server;
+                                listen [::]:80 default_server;
 
-                                        location / {
-                                                root   /var/www/v6;
-                                                index  index.html;
-                                                try_files  / /index.html =404;
-                                        }
+                                root   /var/www/${BUILD_NUMBER};
+                                index  index.html;
+                                server_name _;
+                                
+                                location / {
+                                    try_files $uri $uri/ =404;
                                 }
+                            }
                         }" > nginx.conf
-                    '''
-                    sh 'cat nginx.conf'
+                    """
+                    sh "scp nginx.conf ${SERVER}:/etc/nginx/nginx.conf"
+                    sh "ssh -t ${SERVER} 'systemctl restart nginx'"
                 }
             }
         }
-        stage('Sending files to server') {
+        stage('Sending project to server') {
             steps {
-                echo 'Sending files to server step started'
-                sh "scp nginx.conf ${SERVER}:/etc/nginx/nginx.conf"
-                sh "ssh -t ${SERVER} 'systemctl restart nginx'"
+                echo 'Sending project to server step started'
                 sh "scp -r dist/fuse/* ${SERVER}:/var/www/v${BUILD_NUMBER}"
+            }
+        }
+        stage('Serving files with Ngrok') {
+            steps {
+                sh "ssh -t ${SERVER} 'ngrok http http://localhost:80'"
             }
         }
     }
