@@ -1,25 +1,22 @@
 pipeline {
-
     agent any
 
     stages {
-        stage("Install dependencies") {
+        stage('Installing dependencies') {
             steps {
-                echo 'installing dependencies'
+                echo 'Installing dependencies step started'
                 sh 'npm install'
             }
         }
-        stage("Test") {
+        stage('Testing project') {
             steps {
-                echo 'running test'
-                // sh 'npm run test'
+                echo 'Running test step started'
             }
-        } 
-        stage("Build") {
+        }
+        stage('Compiling project') {
             steps {
-                echo 'building project'
+                echo 'Compiling project step started'
                 sh 'npm run build'
-
             }
         }
     }
@@ -28,5 +25,4 @@ pipeline {
             archiveArtifacts artifacts: 'dist/**', onlyIfSuccessful: true
         }
     }
-
 }
