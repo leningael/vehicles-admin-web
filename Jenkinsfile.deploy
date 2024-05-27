@@ -16,25 +16,25 @@ pipeline {
             steps {
                 echo 'Configuring Nginx in server step started'
                 script {
-                    sh """
-                    echo "
-                        events {}
+                    sh '''
+                    echo '
+                    events {}
 
-                        http {
-                            server {
-                                listen 80 default_server;
-                                listen [::]:80 default_server;
+                    http {
+                        server {
+                            listen 80 default_server;
+                            listen [::]:80 default_server;
 
-                                root   /var/www/v${BUILD_NUMBER};
-                                index  index.html;
-                                server_name _;
+                            root   /var/www/v${BUILD_NUMBER};
+                            index  index.html;
+                            server_name _;
 
-                                location / {
-                                    try_files \$uri \$uri/ =404;
-                                }
+                            location / {
+                                try_files $uri $uri/ =404;
                             }
-                        }" > nginx.conf
-                    """
+                        }
+                    }' > nginx.conf
+                    '''
                     sh "scp nginx.conf ${SERVER}:/etc/nginx/nginx.conf"
                     sh "ssh -t ${SERVER} 'systemctl restart nginx'"
                 }
