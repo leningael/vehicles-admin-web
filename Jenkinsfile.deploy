@@ -21,7 +21,7 @@ pipeline {
                         listen 80;
 
                         location / {
-                            root   /var/www/${BUILD_NUMBER};
+                            root   /var/www/v${BUILD_NUMBER};
                             index  index.html;
                             try_files \$uri \$uri/ /index.html =404;
                         }
@@ -34,9 +34,9 @@ pipeline {
         stage('Sending files to server') {
             steps {
                 echo 'Sending files to server step started'
-                sh "scp nginx.conf ${SERVER}:/etc/nginx/conf.d/default.conf"
+                sh "scp nginx.conf ${SERVER}:/etc/nginx/nginx.conf"
                 sh "ssh -t ${SERVER} 'sudo systemctl restart nginx'"
-                sh "scp -r dist/fuse/* ${SERVER}:/var/www/${BUILD_NUMBER}"
+                sh "scp -r dist/fuse/* ${SERVER}:/var/www/v${BUILD_NUMBER}"
             }
         }
     }
