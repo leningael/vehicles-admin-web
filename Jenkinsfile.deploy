@@ -17,15 +17,17 @@ pipeline {
                 echo 'Creating Nginx configuration step started'
                 script {
                     sh """
-                    echo "server {
-                        listen 80;
+                    echo "http {
+                            server {
+                                listen 80 default_server;
 
-                        location / {
-                            root   /var/www/v${BUILD_NUMBER};
-                            index  index.html;
-                            try_files \$uri \$uri/ /index.html =404;
-                        }
-                    }" > nginx.conf
+                                location / {
+                                    root   /var/www/v${BUILD_NUMBER};
+                                    index  index.html;
+                                    try_files \$uri \$uri/ /index.html =404;
+                                }
+                            }
+                        }" > nginx.conf
                     """
                     sh 'cat nginx.conf'
                 }
