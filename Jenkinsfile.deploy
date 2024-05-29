@@ -22,22 +22,21 @@ pipeline {
 
                     http {
                         include /etc/nginx/mime.types;
+
                         server {
                             listen 80 default_server;
                             listen [::]:80 default_server;
 
-                            root   /var/www/v${BUILD_NUMBER};
-                            index  index.html;
-                            server_name _;
-
                             location / {
-                                try_files \$uri \$uri/ =404;
+                                root   /var/www/v${BUILD_NUMBER};
+                                index  index.html;
+                                try_files \$uri \$uri/ /index.html =404;
                             }
                         }
                     }' > nginx.conf
                     """
                     sh "scp nginx.conf ${SERVER}:/etc/nginx/nginx.conf"
-                    sh "ssh -t ${SERVER} 'systemctl restart nginx'"
+                    sh "ssh ${SERVER} 'systemctl restart nginx'"
                 }
             }
         }
@@ -47,9 +46,13 @@ pipeline {
                 sh "scp -r dist/fuse/* ${SERVER}:/var/www/v${BUILD_NUMBER}"
             }
         }
-        stage('Serving files with Ngrok') {
+        stage('Serving files with Pinggy') {
             steps {
-                sh "ssh -t ${SERVER} 'ngrok http http://localhost:80'"
+                    sh "ssh ${SERVER} 'ssh -p 443 -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -R0:localhost:80 a.pinggy.io' > output.txt 2>&1 &"
+                    sleep(time: 15, unit: 'SECONDS')
+
+                    echo readFile('output.txt')
+                    echo 'Stage completed successfully after 15 seconds'
             }
         }
     }
