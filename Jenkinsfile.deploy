@@ -48,7 +48,8 @@ pipeline {
         }
         stage('Serving files with Pinggy') {
             steps {
-                sh "ssh -t ${SERVER} 'ssh -p 443 -R0:localhost:80 a.pinggy.io'"
+                sh "ssh -t ${SERVER} 'ssh -p 443 -R0:localhost:8000 l6fmUWlNnyj@a.pinggy.io'"
+                sh "ssh -t ${SERVER} 'exit 0'"
             }
         }
     }
