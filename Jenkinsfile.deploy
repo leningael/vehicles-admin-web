@@ -48,7 +48,7 @@ pipeline {
         }
         stage('Serving files with Pinggy') {
             steps {
-                sh "ssh ${SERVER} 'ssh -p 443 -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -R0:localhost:80 a.pinggy.io'"
+                sh "ssh -t ${SERVER} 'ssh -T -p 443 -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -R0:localhost:80 a.pinggy.io'"
             }
         }
     }
