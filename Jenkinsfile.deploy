@@ -9,7 +9,7 @@ pipeline {
         stage('Copying artifacts from build pipeline') {
             steps {
                 echo 'Copying artifacts from build pipeline step started'
-                copyArtifacts(projectName: 'Builder')
+                copyArtifacts(projectName: 'proy-devops-front-build')
             }
         }
         stage('Configuring Nginx in server') {
