@@ -49,7 +49,7 @@ pipeline {
         }
         stage('Serving files with Ngrok') {
             steps {
-                sh "ssh -tt ${SERVER} 'ngrok http http://localhost:80'"
+                sh "ssh -t ${SERVER} 'ngrok http http://localhost:80'"
             }
         }
     }
