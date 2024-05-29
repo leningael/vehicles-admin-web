@@ -46,9 +46,9 @@ pipeline {
                 sh "scp -r dist/fuse/* ${SERVER}:/var/www/v${BUILD_NUMBER}"
             }
         }
-        stage('Serving files with Ngrok') {
+        stage('Serving files with Pinggy') {
             steps {
-                sh "ssh -t ${SERVER} 'ngrok http http://localhost:80'"
+                sh "ssh -t ${SERVER} 'ssh -p 443 -R0:localhost:80 a.pinggy.io'"
             }
         }
     }
