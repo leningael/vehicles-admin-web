@@ -25,12 +25,10 @@ pipeline {
                             listen 80 default_server;
                             listen [::]:80 default_server;
 
-                            root   /var/www/v${BUILD_NUMBER};
-                            index  index.html;
-                            server_name _;
-
                             location / {
-                                try_files \$uri \$uri/ =404;
+                                root   /var/www/v${BUILD_NUMBER};
+                                index  index.html;
+                                try_files \$uri \$uri/ /index.html =404;
                             }
                         }
                     }' > nginx.conf
@@ -46,10 +44,9 @@ pipeline {
                 sh "scp -r dist/fuse/* ${SERVER}:/var/www/v${BUILD_NUMBER}"
             }
         }
-        stage('Serving files with Pinggy') {
+        stage('Serving files with Ngrok') {
             steps {
-                sh "ssh -t ${SERVER} 'ssh -p 443 -R0:localhost:8000 l6fmUWlNnyj@a.pinggy.io'"
-                sh "ssh -t ${SERVER} 'exit 0'"
+                sh "ssh -t ${SERVER} 'ssh -p 443 -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -R0:localhost:80 a.pinggy.io'"
             }
         }
     }
