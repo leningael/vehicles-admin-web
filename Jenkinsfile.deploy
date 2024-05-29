@@ -21,6 +21,8 @@ pipeline {
                     events {}
 
                     http {
+                        include /etc/nginx/mime.types;
+                        
                         server {
                             listen 80 default_server;
                             listen [::]:80 default_server;
@@ -44,9 +46,9 @@ pipeline {
                 sh "scp -r dist/fuse/* ${SERVER}:/var/www/v${BUILD_NUMBER}"
             }
         }
-        stage('Serving files with Ngrok') {
+        stage('Serving files with Pinggy') {
             steps {
-                sh "ssh -t ${SERVER} 'ssh -p 443 -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -R0:localhost:80 a.pinggy.io'"
+                sh "ssh -T ${SERVER} 'ssh -p 443 -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -R0:localhost:80 a.pinggy.io'"
             }
         }
     }
