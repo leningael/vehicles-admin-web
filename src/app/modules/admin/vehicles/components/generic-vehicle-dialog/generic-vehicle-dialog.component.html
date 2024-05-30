@@ -1,0 +1,93 @@
+<div class="flex justify-between mb-4">
+    <div class="text-2xl font-semibold">{{ action }} vehicle</div>
+    <button mat-icon-button (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<form
+    [formGroup]="vehicleForm"
+    (ngSubmit)="saveVehicle()"
+    class="flex flex-col"
+>
+    <div class="flex flex-col md:flex-row gap-4">
+        <div class="w-full md:w-1/2">
+            <div class="flex gap-4">
+                <mat-form-field class="flex-auto">
+                    <mat-label>Brand</mat-label>
+                    <input matInput formControlName="brand" />
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <mat-label>Model</mat-label>
+                    <input matInput formControlName="model" />
+                </mat-form-field>
+            </div>
+            <div class="flex flex-row gap-4">
+                <mat-form-field class="flex-auto">
+                    <mat-label>Vin</mat-label>
+                    <input matInput formControlName="vin" />
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <mat-label>Plate</mat-label>
+                    <input matInput formControlName="plate" />
+                </mat-form-field>
+            </div>
+            <div class="flex flex-row gap-4">
+                <mat-form-field class="flex-auto">
+                    <mat-label>Purchase Date</mat-label>
+                    <input
+                        matInput
+                        [matDatepicker]="purchaseDatePicker"
+                        readonly
+                        formControlName="purchase_date"
+                    />
+                    <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="purchaseDatePicker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #purchaseDatePicker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <mat-label>Cost</mat-label>
+                    <input matInput formControlName="cost" />
+                </mat-form-field>
+            </div>
+        </div>
+        <div
+            class="w-full sm:w-3/4 md:1/2 max-w-72 mx-auto flex justify-center items-center"
+        >
+            @if (!selectedImage){
+            <div
+                class="w-full h-full min-h-64 file-drop-area relative flex flex-col items-center justify-center rounded mb-4 shadow-sm"
+            >
+                <span class="upload-icon material-icons text-gray-600 mb-2">
+                    cloud_upload
+                </span>
+                <span class="file-message text-gray-600 text-center">
+                    Drag and drop or click to select a file.
+                </span>
+                <input
+                    class="file-input absolute top-0 left-0 w-full h-full"
+                    type="file"
+                    (change)="onFileSelected($event)"
+                />
+            </div>
+
+            } @else {
+            <div class="w-full h-full min-h-64 max-h-64 relative rounded mb-4 shadow-sm">
+                <img
+                    class="w-full h-full object-cover absolute top-0 left-0"
+                    [src]="selectedImage"
+                    alt="Vehicle image"
+                />
+            </div>
+            }
+        </div>
+    </div>
+
+    <div class="flex justify-end mt-5">
+        <button mat-raised-button color="primary" type="submit">
+            {{ action === "Edit" ? "Save" : "Add" }}
+        </button>
+    </div>
+</form>

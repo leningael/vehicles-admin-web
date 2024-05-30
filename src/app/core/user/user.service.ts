@@ -1,13 +1,22 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { User } from 'app/core/user/user.types';
-import { map, Observable, ReplaySubject, tap } from 'rxjs';
+import { Observable, ReplaySubject, tap } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class UserService
 {
-    private _httpClient = inject(HttpClient);
     private _user: ReplaySubject<User> = new ReplaySubject<User>(1);
+
+    constructor(){
+        // Get the user from the local storage
+        const user = localStorage.getItem('user');
+
+        if ( user )
+        {
+            // Set the user
+            this._user.next(JSON.parse(user));
+        }
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -21,43 +30,12 @@ export class UserService
     set user(value: User)
     {
         // Store the value
+        localStorage.setItem('user', JSON.stringify(value));
         this._user.next(value);
     }
 
     get user$(): Observable<User>
     {
         return this._user.asObservable();
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Get the current signed-in user data
-     */
-    get(): Observable<User>
-    {
-        return this._httpClient.get<User>('api/common/user').pipe(
-            tap((user) =>
-            {
-                this._user.next(user);
-            }),
-        );
-    }
-
-    /**
-     * Update the user
-     *
-     * @param user
-     */
-    update(user: User): Observable<any>
-    {
-        return this._httpClient.patch<User>('api/common/user', {user}).pipe(
-            map((response) =>
-            {
-                this._user.next(response);
-            }),
-        );
     }
 }

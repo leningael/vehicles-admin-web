@@ -1,0 +1,59 @@
+pipeline {
+    agent any
+
+    environment {
+        SERVER = 'root@Debian@orb'
+    }
+
+    stages {
+        stage('Copying artifacts from build pipeline') {
+            steps {
+                echo 'Copying artifacts from build pipeline step started'
+                copyArtifacts(projectName: 'proy-devops-front-build')
+            }
+        }
+        stage('Configuring Nginx in server') {
+            steps {
+                echo 'Configuring Nginx in server step started'
+                script {
+                    sh """
+                    echo '
+                    events {}
+
+                    http {
+                        include /etc/nginx/mime.types;
+
+                        server {
+                            listen 80 default_server;
+                            listen [::]:80 default_server;
+
+                            location / {
+                                root   /var/www/v${BUILD_NUMBER};
+                                index  index.html;
+                                try_files \$uri \$uri/ /index.html =404;
+                            }
+                        }
+                    }' > nginx.conf
+                    """
+                    sh "scp nginx.conf ${SERVER}:/etc/nginx/nginx.conf"
+                    sh "ssh ${SERVER} 'systemctl restart nginx'"
+                }
+            }
+        }
+        stage('Sending project to server') {
+            steps {
+                echo 'Sending project to server step started'
+                sh "scp -r dist/fuse/* ${SERVER}:/var/www/v${BUILD_NUMBER}"
+            }
+        }
+        stage('Serving files with Pinggy') {
+            steps {
+                    sh "ssh ${SERVER} 'ssh -p 443 -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -R0:localhost:80 a.pinggy.io' > output.txt 2>&1 &"
+                    sleep(time: 15, unit: 'SECONDS')
+
+                    echo readFile('output.txt')
+                    echo 'Stage completed successfully after 15 seconds'
+            }
+        }
+    }
+}
